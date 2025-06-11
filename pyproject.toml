@@ -4,4 +4,24 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "boto3>=1.38.34",
+    "faiss-cpu>=1.11.0",
+    "langchain>=0.3.25",
+    "langchain-aws>=0.2.25",
+    "numpy>=2.3.0",
+]
+
+[dependency-groups]
+dev = [
+    "beautifulsoup4>=4.13.4",
+    "html2text>=2025.4.15",
+    "requests>=2.32.4",
+    "tqdm>=4.67.1",
+]
+
+[tool.ruff.lint]
+unfixable = [
+    "F401", # unused import
+    "F841", # unused variable
+]
