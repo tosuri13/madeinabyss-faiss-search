@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  MadeinabyssFaissSearchIndexBucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: "madeinabyss-faiss-search-index-bucket"
+
+  MadeinabyssFaissSearchApiGateway:
+    Type: "AWS::Serverless::Api"
+    Properties:
+      Name: "madeinabyss-faiss-search-api"
+      OpenApiVersion: "3.0.0"
+      StageName: "v1"
+
+  MadeinabyssFaissSearchFunction:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      CodeUri: "src"
+      Events:
+        ApiEvents:
+          Type: "Api"
+          Properties:
+            Path: /
+            Method: "POST"
+            RestApiId: !Ref MadeinabyssFaissSearchApiGateway
+      FunctionName: "madeinabyss-faiss-search-function"
+      Handler: "function.handler"
+      Role: !GetAtt MadeinabyssFaissSearchFunctionRole.Arn
+      Runtime: "python3.12"
+      Timeout: 300
+
+  MadeinabyssFaissSearchFunctionRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service: "lambda.amazonaws.com"
+            Action: "sts:AssumeRole"
+      Policies:
+        - PolicyName: "madeinabyss-faiss-search-function-policy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action: 
+                  - "bedrock:InvokeModel"
+                  - "s3:GetObject"
+                Resource: "*"
+      RoleName: "madeinabyss-faiss-search-function-role"
