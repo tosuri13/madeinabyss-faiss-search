@@ -30,6 +30,7 @@ def create_index() -> None:
     )
 
     embeddings = []
+    print("● Creating FAISS index...")
 
     for chunk in tqdm(chunks):
         embedding = embedding_model.embed_query(chunk)

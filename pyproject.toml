@@ -10,12 +10,14 @@ dependencies = [
     "langchain>=0.3.25",
     "langchain-aws>=0.2.25",
     "numpy>=2.3.0",
+    "xmltodict>=0.14.2",
 ]
 
 [dependency-groups]
 dev = [
     "beautifulsoup4>=4.13.4",
     "html2text>=2025.4.15",
+    "langchain-community>=0.3.25",
     "requests>=2.32.4",
     "tqdm>=4.67.1",
 ]
